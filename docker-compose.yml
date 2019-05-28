@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  web:
+    image: canny
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      - ENV=development
+      - DJANGO_DEBUG=1
+    volumes:
+      - .:/app
