@@ -29,10 +29,10 @@ class ImageView(FormView):
         return render(self.request, template_name='main/index.html', context={'images': images})
 
     def get_images_from_arrays(self, img_arrays):
-        images = ['/media/' + self.orig_image]
+        images = [('Оригинал изображения', '/media/' + self.orig_image)]
 
         for img_array in img_arrays:
-            images.append(self.save_image(img_array))
+            images.append((img_array[0], self.save_image(img_array[1])))
 
         return images
 

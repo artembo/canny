@@ -18,6 +18,7 @@
         }
         img {
             max-width: 100%;
+            padding-top: 1rem;
         }
     </style>
     <title>Canny Edge Detection</title>
@@ -29,10 +30,11 @@
         <h1 class="mt-5">Canny Edge Detection</h1>
         {% if images %}
             <p>Для повторной загрузки изображения нажмите <a href="/">сюда</a></p>
-            {% for image in images %}
-                <img src="{{ image }}"/>
-                <br>
-                <br>
+            {% for stage, image in images %}
+                <figure class="figure">
+                  <img src="{{ image }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                  <figcaption class="figure-caption">{{ stage }}</figcaption>
+                </figure>
             {% endfor %}
         {% else %}
         <p class="lead">Выберите изображения для детектирования границ изображения с помощью алгоритма Кэнни</p>

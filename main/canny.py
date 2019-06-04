@@ -65,7 +65,7 @@ class CannyEdgeDetector:
 
         return z
 
-    def threshold(self, img, weak_pixel=75, strong_pixel=255, lowthreshold=0.05, highthreshold=0.20):
+    def threshold(self, img, weak_pixel=75, strong_pixel=255, lowthreshold=0.05, highthreshold=0.09):
 
         high_threshold = img.max() * highthreshold
         low_threshold = high_threshold * lowthreshold
@@ -127,4 +127,10 @@ class CannyEdgeDetector:
         non_max_img = self.non_max_suppression(gradient_mat, theta_mat)
         threshold_img = self.threshold(non_max_img)
         img_final = self.hysteresis(threshold_img)
-        return [img_smoothed, gradient_mat, non_max_img, threshold_img, img_final]
+        return [
+            ('Сглаживание', img_smoothed),
+            ('Поиск градиентов', gradient_mat),
+            ('Подавление немаксимумов', non_max_img),
+            ('Двойная пороговая фильтрация', threshold_img),
+            ('Гистерезис', img_final)
+        ]
