@@ -7,7 +7,7 @@ class CannyEdgeDetector:
     def __init__(self, img):
         self.img = img
 
-    def gaussian_kernel(self, size=5, sigma=1):
+    def gaussian_kernel(self, size=3, sigma=1.1):
         size = int(size) // 2
         x, y = np.mgrid[-size: size + 1, -size: size + 1]
         normal = 1 / (2.0 * np.pi * sigma ** 2)
@@ -77,7 +77,6 @@ class CannyEdgeDetector:
         strong = np.int32(strong_pixel)
 
         strong_i, strong_j = np.where(img >= high_threshold)
-        # zeros_i, zeros_j = np.where(img < low_threshold)
 
         weak_i, weak_j = np.where((img <= high_threshold) & (img >= low_threshold))
 
@@ -86,7 +85,8 @@ class CannyEdgeDetector:
 
         return res
 
-    def hysteresis(self, img, weak_pixel=75, strong_pixel=255):
+    def hysteresis(self, image, weak_pixel=75, strong_pixel=255):
+        img = image.copy()
         m, n = img.shape
         weak = weak_pixel
         strong = strong_pixel
@@ -128,7 +128,7 @@ class CannyEdgeDetector:
         threshold_img = self.threshold(non_max_img)
         img_final = self.hysteresis(threshold_img)
         return [
-            ('Сглаживание', img_smoothed),
+            ('Сглаживание (фильтр Гаусса)', img_smoothed),
             ('Поиск градиентов', gradient_mat),
             ('Подавление немаксимумов', non_max_img),
             ('Двойная пороговая фильтрация', threshold_img),
