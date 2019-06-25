@@ -22,7 +22,22 @@ class ImageView(FormView):
         default_storage.save(img, ContentFile(file))
 
         img = imread(f'media/{img}', as_gray=True)
-        canny = CannyEdgeDetector(img)
+
+        sigma = form.cleaned_data.get('sigma')
+        kernel_size = form.cleaned_data.get('kernel_size')
+        weak_pixel = form.cleaned_data.get('weak_pixel')
+        strong_pixel = form.cleaned_data.get('strong_pixel')
+        low_threshold = form.cleaned_data.get('low_threshold')
+        high_threshold = form.cleaned_data.get('high_threshold')
+        canny = CannyEdgeDetector(
+            img,
+            sigma=sigma,
+            kernel_size=kernel_size,
+            weak_pixel=weak_pixel,
+            strong_pixel=strong_pixel,
+            low_threshold=low_threshold,
+            high_threshold=high_threshold
+        )
 
         images = self.get_images_from_arrays(canny.get_all_stages())
 

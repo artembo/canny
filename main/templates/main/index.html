@@ -40,7 +40,7 @@
         <p class="lead">Выберите изображения для детектирования границ изображения с помощью алгоритма Кэнни</p>
             <br>
             <form method="post" enctype="multipart/form-data">
-                {{ form }}
+                {{ form.as_p }}
                 <input type="submit" value="Отправить">
             </form>
         {% endif %}

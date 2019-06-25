@@ -4,14 +4,20 @@ from scipy.ndimage.filters import convolve
 
 
 class CannyEdgeDetector:
-    def __init__(self, img):
-        self.img = img
+    def __init__(self, imgage, sigma=1, kernel_size=5, weak_pixel=75, strong_pixel=255, low_threshold=0.05, high_threshold=0.15):
+        self.img = imgage
+        self.sigma = sigma
+        self.kernel_size = kernel_size
+        self.weak_pixel = weak_pixel
+        self.strong_pixel = strong_pixel
+        self.low_threshold = low_threshold
+        self.high_threshold = high_threshold
 
-    def gaussian_kernel(self, size=3, sigma=1.1):
-        size = int(size) // 2
+    def gaussian_kernel(self):
+        size = int(self.kernel_size) // 2
         x, y = np.mgrid[-size: size + 1, -size: size + 1]
-        normal = 1 / (2.0 * np.pi * sigma ** 2)
-        g = np.exp(-((x ** 2 + y ** 2) / (2.0 * sigma ** 2))) * normal
+        normal = 1 / (2.0 * np.pi * self.sigma ** 2)
+        g = np.exp(-((x ** 2 + y ** 2) / (2.0 * self.sigma ** 2))) * normal
         return g
 
     def sobel_filter(self, img):
@@ -65,16 +71,16 @@ class CannyEdgeDetector:
 
         return z
 
-    def threshold(self, img, weak_pixel=75, strong_pixel=255, lowthreshold=0.05, highthreshold=0.09):
+    def threshold(self, img):
 
-        high_threshold = img.max() * highthreshold
-        low_threshold = high_threshold * lowthreshold
+        high_threshold = img.max() * self.high_threshold
+        low_threshold = high_threshold * self.low_threshold
 
         m, n = img.shape
         res = np.zeros((m, n), dtype=np.int32)
 
-        weak = np.int32(weak_pixel)
-        strong = np.int32(strong_pixel)
+        weak = np.int32(self.weak_pixel)
+        strong = np.int32(self.strong_pixel)
 
         strong_i, strong_j = np.where(img >= high_threshold)
 
@@ -85,11 +91,11 @@ class CannyEdgeDetector:
 
         return res
 
-    def hysteresis(self, image, weak_pixel=75, strong_pixel=255):
+    def hysteresis(self, image):
         img = image.copy()
         m, n = img.shape
-        weak = weak_pixel
-        strong = strong_pixel
+        weak = self.weak_pixel
+        strong = self.strong_pixel
 
         for i in range(1, m - 1):
             for j in range(1, n - 1):
