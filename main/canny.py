@@ -4,8 +4,8 @@ from scipy.ndimage.filters import convolve
 
 
 class CannyEdgeDetector:
-    def __init__(self, imgage, sigma=1, kernel_size=5, weak_pixel=75, strong_pixel=255, low_threshold=0.05, high_threshold=0.15):
-        self.img = imgage
+    def __init__(self, image, sigma=1, kernel_size=5, weak_pixel=75, strong_pixel=255, low_threshold=0.05, high_threshold=0.15):
+        self.img = image
         self.sigma = sigma
         self.kernel_size = kernel_size
         self.weak_pixel = weak_pixel
